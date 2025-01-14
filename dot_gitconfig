@@ -1,0 +1,6 @@
+[user]
+	email = julara@unal.edu.co
+	name = Juan Lara
+
+[init]
+	defaultBranch = main
