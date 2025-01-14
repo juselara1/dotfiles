@@ -1,0 +1,313 @@
+- name: Configure tools for general environment
+  hosts: localhost
+  become: true
+  connection: local
+  gather_facts: true
+
+  tasks:
+    - name: Detect if inside of wsl
+      register: is_wsl
+      ignore_errors: true
+      script: "utils.sh is_wsl"
+      args:
+        executable: "/usr/bin/env bash"
+
+    # Arch
+    - name: Update and upgrade
+      pacman:
+        update_cache: true
+        upgrade: true
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Install command line utilities
+      pacman:
+        name: [
+          "git", "git-delta", "make", "tmux", "base-devel", "unzip", "zip",
+          "ripgrep", "zoxide", "bat", "jq", "fzf", "btop", "tree", "github-cli",
+          "tmux", "pass", "neovim", "starship", "python-cookiecutter"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Install programming languajes support
+      pacman:
+        name: [
+          "lua-language-server", "bash-language-server"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Install nvidia drivers
+      pacman:
+        name: [
+          "nvidia"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Install x11 dependencies
+      pacman:
+        name: [
+          "xorg", "xorg-xinit", "xclip", "xorg-fonts", "pango"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Install Fonts
+      pacman: 
+        name: [
+          "noto-fonts-emoji", "nerd-fonts", "monaspace-font", "fontconfig"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Install WM and DM
+      pacman:
+        name: [
+          "awesome", "picom", "feh", "polybar", "ly"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Add DM config
+      copy:
+        dest: "/etc/ly/config.ini"
+        content: |
+          animation = matrix
+          clock = null
+          bigclock = false
+          asterisk = *
+          clear_password = false
+          vi_mode = true
+          bg = 0
+          fg = 8
+          border_fg = 8
+          box_title = null
+          initial_info_text = null
+          blank_box = true
+          hide_borders = true
+          margin_box_h = 2
+          margin_box_v = 1
+          input_len = 34
+          max_desktop_len = 100
+          max_login_len = 255
+          max_password_len = 255
+          default_input = login
+          load = true
+          save = true
+          save_file = /etc/ly/save
+          hide_key_hints = false
+          shutdown_key = F1
+          restart_key = F2
+          sleep_key = F3
+          shutdown_cmd = /sbin/shutdown -a now
+          restart_cmd = /sbin/shutdown -r now
+          sleep_cmd = null
+          lang = en
+          tty = 2
+          console_dev = /dev/console
+          path = /sbin:/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+          min_refresh_delta = 5
+          numlock = false
+          service_name = ly
+          term_reset_cmd = /usr/bin/tput reset
+          term_restore_cursor_cmd = /usr/bin/tput cnorm
+          mcookie_cmd = /usr/bin/mcookie
+          wayland_cmd = /etc/ly/wsetup.sh
+          waylandsessions = /usr/share/wayland-sessions
+          xinitrc = ~/.xinitrc
+          x_cmd = /usr/bin/X
+          x_cmd_setup = /etc/ly/xsetup.sh
+          xauth_cmd = /usr/bin/xauth
+          xsessions = /usr/share/xsessions
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Enable ly
+      ansible.builtin.systemd_service:
+        name: ly
+        state: started
+        enabled: true
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Images and capture
+      pacman:
+        name: [
+          "sxiv", "zathura", "zathura-pdf-mupdf", "zathura-djvu",
+          "zathura-ps", "mpv", "inkscape", "scrot", "obs-studio",
+          "shotcut"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Docker
+      pacman:
+        name: [
+          "docker", "docker-compose", "nvidia-container-toolkit"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Note taking
+      pacman:
+        name: [
+          "obsidian"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Create the `aur_builder` user
+      become: yes
+      ansible.builtin.user:
+        name: aur_builder
+        create_home: yes
+        group: wheel
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Allow the `aur_builder` user to run `sudo pacman` without a password
+      become: yes
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/11-install-aur_builder
+        line: 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+        create: yes
+        mode: 0644
+        validate: 'visudo -cf %s'
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: AUR packages
+      become: yes
+      become_user: aur_builder
+      kewlfft.aur.aur:
+        name: [
+          "google-chrome", "nodejs-compose-language-service", "dockerfile-language-server"
+        ]
+        use: paru
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    # Debian
+    - name: Update and upgrade
+      apt:
+        update_cache: true
+        upgrade: true
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Install command line utilities
+      apt:
+        name: [
+          "git", "tmux", "build-essential", "unzip", "zip", "ripgrep", "jq", "btop",
+          "tree", "tmux", "pass", "curl", "zoxide", "bat"
+        ]
+        install-recommends: false
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Install neovim build dependencies
+      apt:
+        name: ["gettext", "cmake", "build-essential", "cmake", "ninja-build", "gettext"]
+        install-recommends: false
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Install Neovim
+      script: "build.sh nvim v0.11.0"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Install Rust
+      script: "build.sh rust"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Alacritty Dependencies
+      apt:
+        name: [
+          "cmake", "g++", "pkg-config", "libfreetype6-dev", "libfontconfig1-dev", "libxcb-xfixes0-dev",
+          "libxkbcommon-dev", "python3"
+        ]
+        install-recommends: false
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Install Alacritty
+      script: "build.sh alacritty"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Install fzf
+      script: "build.sh fzf"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Install starship
+      script: "build.sh starship"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["os_family"] == "Debian"
+
+    - name: Install x11 dependencies
+      apt:
+        name: [
+          "xorg", "xinit", "xclip"
+        ]
+        install-recommends: false
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Install WM and DM
+      apt:
+        name: [
+          "awesome", "feh", "polybar"
+        ]
+        install-recommends: false
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Picom Dependencies
+      apt:
+        name: [
+          "libconfig-dev", "libdbus-1-dev", "libegl-dev", "libev-dev", "libgl-dev", "libepoxy-dev",
+          "libpcre2-dev", "libpixman-1-dev", "libx11-xcb-dev", "libxcb1-dev", "libxcb-composite0-dev",
+          "libxcb-damage0-dev", "libxcb-glx0-dev", "libxcb-image0-dev", "libxcb-present-dev",
+          "libxcb-randr0-dev", "libxcb-render0-dev", "libxcb-render-util0-dev", "libxcb-shape0-dev",
+          "libxcb-util-dev", "libxcb-xfixes0-dev", "meson", "ninja-build", "uthash-dev"
+        ]
+        install-recommends: false
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Install Picom
+      script: "build.sh picom"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Images and capture
+      apt:
+        name: [
+          "sxiv", "zathura", "zathura-pdf-poppler", "zathura-djvu", "zathura-ps", "inkscape", "mpv",
+          "scrot", "obs-studio"
+        ]
+        install-recommends: false
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Install Fonts
+      apt: 
+        name: [
+          "fonts-noto-color-emoji"
+        ]
+        install-recommends: false
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Install Monaspace Font
+      script: "build.sh monaspace"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["os_family"] == "Debian" and not is_wsl
+
+    - name: Setup docker
+      script: "build.sh docker-ubuntu"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Setup docker
+      script: "build.sh docker-debian"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["distribution"] == "Debian"
+
+    - name: Install docker
+      apt:
+        name: [
+          "docker-ce", "docker-ce-cli", "containerd.io", "docker-buildx-plugin", "docker-compose-plugin"
+        ]
+        install-recommends: false
+      when: ansible_facts["os_family"] == "Debian"
