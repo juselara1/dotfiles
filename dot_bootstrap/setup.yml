@@ -49,6 +49,21 @@
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
+    - name: Images
+      pacman:
+        name: [
+          "sxiv", "zathura", "zathura-pdf-mupdf", "zathura-djvu",
+          "zathura-ps"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Programming languages support
+      pacman:
+        name: [
+          "clang", "pyenv", "lua-language-server"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
     - name: Create the `aur_builder` user
       become: yes
       ansible.builtin.user:
