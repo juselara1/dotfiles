@@ -53,7 +53,7 @@
       pacman:
         name: [
           "sxiv", "zathura", "zathura-pdf-mupdf", "zathura-djvu",
-          "zathura-ps"
+          "zathura-ps", "mpv", "inkscape"
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
