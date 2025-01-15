@@ -15,5 +15,8 @@ local function setup(libraries)
 end
 
 --- Modules
-local modules = {"theme", "keybindings", "startup", "scripts", "notify", "wibar"}
+local modules = {
+    "theme", "keybindings", "startup", "scripts",
+	"notify", "wibar", "wallpaper"
+}
 setup(modules)
