@@ -45,7 +45,7 @@
     - name: Install WM
       pacman:
         name: [
-          "awesome", "picom", "feh"
+          "awesome", "picom", "feh", "polybar"
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
