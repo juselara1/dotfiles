@@ -8,8 +8,8 @@ require("awful.autofocus")
 local function setup(args)
 	-- Define layout
 	awful.layout.layouts = {
-		awful.layout.suit.tile,
-		-- awful.layout.suit.max.fullscreen
+		-- awful.layout.suit.tile,
+		awful.layout.suit.max
 	}
 	-- Creates workspaces
 	awful.screen.connect_for_each_screen(function(s)
