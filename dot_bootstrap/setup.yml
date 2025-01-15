@@ -17,7 +17,7 @@
         name: [
           "git", "git-delta", "make", "tmux", "base-devel", "unzip", "zip",
           "ripgrep", "zoxide", "bat", "jq", "fzf", "btop", "tree", "github-cli",
-          "tmux", "pass", "neovim"
+          "tmux", "pass", "neovim", "starship"
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
