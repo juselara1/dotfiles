@@ -6,3 +6,7 @@ if [[ -d "$HOME/.pyenv" ]]; then
     export PATH="$PATH:$HOME/.pyenv/bin/"
     eval "$(pyenv init -)"
 fi
+
+# ================================================================================
+# fzf
+eval "$(fzf --bash)"

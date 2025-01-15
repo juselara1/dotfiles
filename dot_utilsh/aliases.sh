@@ -1,0 +1,5 @@
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+alias p='get_password'
+alias c='clear'
+alias l='launcher_menu'

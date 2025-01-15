@@ -1,11 +1,6 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias p='get_password'
-alias c='clear'
-
 for file in "${HOME}/.utilsh/*.sh"; do
 	eval "$(cat $file)"
 done
