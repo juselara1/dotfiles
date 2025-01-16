@@ -49,11 +49,11 @@
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
-    - name: Images
+    - name: Images and capture
       pacman:
         name: [
           "sxiv", "zathura", "zathura-pdf-mupdf", "zathura-djvu",
-          "zathura-ps", "mpv", "inkscape", "scrot"
+          "zathura-ps", "mpv", "inkscape", "scrot", "obs-studio"
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
