@@ -64,6 +64,13 @@
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
+    - name: "Docker"
+      pacman:
+        name: [
+          "docker", "nvidia-container-toolkit"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
     - name: Create the `aur_builder` user
       become: yes
       ansible.builtin.user:
