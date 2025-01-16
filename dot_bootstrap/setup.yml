@@ -64,10 +64,17 @@
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
-    - name: "Docker"
+    - name: Docker
       pacman:
         name: [
           "docker", "nvidia-container-toolkit"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
+    - name: Note taking
+      pacman:
+        name: [
+          "obsidian"
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
