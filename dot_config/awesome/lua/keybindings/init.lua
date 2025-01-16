@@ -70,6 +70,9 @@ local function set_global_keys(args)
 		awful.key({"Mod4"}, "Return", function()
 			awful.spawn(args.terminal)
 		end, {description="Open terminal", group="launcher"} ),
+		awful.key({"Mod4"}, "s", function()
+			awful.spawn.with_shell("scrot -s -e 'xclip -selection clipboard -t image/png -i $f'")
+			end),
 		awful.key(
             {"Mod4", "Control"}, 'q', function()
 				args.awesome.quit()
