@@ -67,7 +67,7 @@
     - name: Docker
       pacman:
         name: [
-          "docker", "nvidia-container-toolkit"
+          "docker", "docker-compose", "nvidia-container-toolkit"
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
