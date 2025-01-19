@@ -17,7 +17,7 @@
         name: [
           "git", "git-delta", "make", "tmux", "base-devel", "unzip", "zip",
           "ripgrep", "zoxide", "bat", "jq", "fzf", "btop", "tree", "github-cli",
-          "tmux", "pass", "neovim", "starship"
+          "tmux", "pass", "neovim", "starship", "python-cookiecutter"
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
@@ -54,13 +54,6 @@
         name: [
           "sxiv", "zathura", "zathura-pdf-mupdf", "zathura-djvu",
           "zathura-ps", "mpv", "inkscape", "scrot", "obs-studio"
-        ]
-      when: ansible_facts["distribution"] == "Archlinux"
-
-    - name: Programming languages support
-      pacman:
-        name: [
-          "clang", "pyenv", "lua-language-server"
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
