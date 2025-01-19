@@ -1,28 +1,5 @@
 #!/usr/bin/env bash
 
-# Browser
-get_firefox() {
-	local profiles=`cat "${HOME}/.mozilla/firefox/profiles.ini" | grep -P 'Name=' | sed 's/Name=//g'` 
-	local selected_profile=`echo -e "${profiles}" | fzf --header "Firefox profile" --height "40%" --layout=reverse`
-	[[ ! -z "${selected_profile}" ]] && firefox -p "${selected_profile}" &
-}
-
-get_qutebrowser() {
-	local profiles=`ls "${HOME}/.qutebrowser/"` 
-	local selected_profile=`echo -e "${profiles}" | fzf --header "Qutebrowser profile" --height "40%" --layout=reverse`
-	[[ ! -z "${selected_profile}" ]] && qutebrowser --basedir "${HOME}/.qutebrowser/${selected_profile}" &
-}
-
-get_chrome() {
-	google-chrome-stable &
-}
-
-browser_menu() {
-	local options="firefox\nqutebrowser\nchrome"
-	local selected_option=`echo -e "${options}" | fzf --header "Select browser" --height "40%" --layout=reverse`
-	eval "get_${selected_option}"
-}
-
 # Programs
 get_executables() {
 	local paths=(`echo "${PATH}" | sed 's/:/\\n/g'`)
@@ -37,11 +14,4 @@ programs_menu() {
 	local executables=`get_executables`
 	local selected_option=`echo -e "${executables}" | fzf --header "Choose program" --height "40%" --layout=reverse`
 	eval "${selected_option}"
-}
-
-# Launcher
-launcher_menu () {
-	local options="programs\nbrowser"
-	local selected_option=`printf "$options" | fzf --header "Choose option" --height "40%" --layout=reverse`
-	[[ ! -z "${selected_option}" ]] && eval "${selected_option}_menu"
 }
