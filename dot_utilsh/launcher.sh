@@ -41,7 +41,7 @@ programs_menu() {
 
 # Templates
 get_templates() {
-	echo `gh repo list --json name -q 'map(select(.nameWithOwner | test(".*template"))) | .[].nameWithOwner?'`
+	gh repo list --json nameWithOwner -q 'map(select(.nameWithOwner | test(".*template"))) | .[].nameWithOwner?'
 }
 
 templates_menu() {
@@ -52,7 +52,7 @@ templates_menu() {
 
 # Launcher
 launcher_menu () {
-	local options="programs\nbrowser"
+	local options="programs\nbrowser\ntemplates"
 	local selected_option=`printf "$options" | fzf --header "Choose option" --height "40%" --layout=reverse`
 	[[ ! -z "${selected_option}" ]] && eval "${selected_option}_menu"
 }
