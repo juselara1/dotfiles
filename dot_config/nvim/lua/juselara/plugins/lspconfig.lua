@@ -48,5 +48,16 @@ return {
 			end,
 			filetypes = {"sh", "bash"}
 		}
+		lspconfig.docker_compose_language_service.setup {
+			on_attach = function (_, buffer)
+				set_keymaps(buffer)
+			end,
+			filetypes = {"yaml.docker-compose", "yaml.compose"}
+		}
+		lspconfig.dockerls.setup{
+			on_attach = function (_, buffer)
+				set_keymaps(buffer)
+			end,
+		}
 	end
 }

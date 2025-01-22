@@ -160,6 +160,6 @@
       become: yes
       become_user: aur_builder
       kewlfft.aur.aur:
-        name: ["google-chrome"]
+        name: ["google-chrome", "nodejs-compose-language-service", "dockerfile-language-server"]
         use: paru
       when: ansible_facts["distribution"] == "Archlinux"
