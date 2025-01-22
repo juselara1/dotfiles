@@ -8,43 +8,6 @@ return {
 		require("tmutils").setup {
 			selector = {
 				selector = selectors.telescope_selector
-			},
-			window = {
-				repls = {
-					python = {
-						syntax = "python",
-						commands = function()
-							return {
-								("cd %s"):format(vim.fn.getcwd()),
-								"nix develop",
-								"clear",
-								"python",
-							}
-						end
-					},
-					ipython = {
-						syntax = "python",
-						commands = function()
-							return {
-								("cd %s"):format(vim.fn.getcwd()),
-								"nix develop",
-								"ipython",
-								"clear",
-							}
-						end
-					},
-					cuda = {
-						syntax = "sh",
-						commands = function()
-							return {
-								("cd %s"):format(vim.fn.getcwd()),
-								"docker compose up -d",
-								"docker exec -it `docker compose config --services` bash",
-								"clear"
-							}
-						end
-					}
-				}
 			}
 		}
 
