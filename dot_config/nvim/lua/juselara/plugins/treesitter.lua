@@ -1,24 +1,13 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	build = ":TSUpdate",
-	dependencies = {
-		"nvim-treesitter/nvim-treesitter-textobjects",
-		"AckslD/nvim-trevJ.lua"
-	},
 	config = function()
 		require("nvim-treesitter.configs").setup {
-			ensure_installed = {
-				"python", "commonlisp", "bash", "c",
-				"lua", "julia", "dockerfile",
-				"gitignore", "markdown", "json",
-				"terraform", "go", "cuda"
-			},
 			sync_install = true,
-			auto_install = false,
+			auto_install = true,
 			ignore_install = {},
 			highlight = {
 				enable = true,
-				disable = { "latex", "tex" }
 			},
 			incremental_selection = {
 				enable = true,
