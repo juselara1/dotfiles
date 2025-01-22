@@ -39,6 +39,17 @@ programs_menu() {
 	eval "${selected_option}"
 }
 
+# Templates
+get_templates() {
+	echo `gh repo list --json name -q 'map(select(.nameWithOwner | test(".*template"))) | .[].nameWithOwner?'`
+}
+
+templates_menu() {
+	local templates=`get_templates`
+	local selected_option=`echo -e "${templates}" | fzf --header "Choose a template" --height "40%" --layout=reverse`
+	cookiecutter "https://github.com/${selected_option}"
+}
+
 # Launcher
 launcher_menu () {
 	local options="programs\nbrowser"
