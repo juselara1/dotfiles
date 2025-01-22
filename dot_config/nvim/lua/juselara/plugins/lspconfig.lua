@@ -42,48 +42,11 @@ return {
 			filetypes = {"lua"},
 			root_dir = lspconfig.util.root_pattern(".git")
 		}
-		lspconfig.jedi_language_server.setup {
+		lspconfig.bashls.setup {
 			on_attach = function (_, buffer)
 				set_keymaps(buffer)
 			end,
-			filetypes = {"python"},
-			single_file_support = false,
-			root_dir = lspconfig.util.root_pattern(".git")
-		}
-		lspconfig.clangd.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
-			end,
-			filetypes = {'c', "cuda"},
-			root_dir = lspconfig.util.root_pattern(".git"),
-		}
-		lspconfig.terraformls.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
-			end,
-			filetypes = {"terraform"},
-			root_dir = lspconfig.util.root_pattern(".git"),
-		}
-		lspconfig.tflint.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
-			end,
-			filetypes = {"terraform"},
-			root_dir = lspconfig.util.root_pattern(".git"),
-		}
-		lspconfig.texlab.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
-			end,
-			filetypes = {"latex", "tex"},
-			root_dir = lspconfig.util.root_pattern(".git"),
-		}
-		lspconfig.gopls.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
-			end,
-			filetypes = {"go"},
-			root_dir = lspconfig.util.root_pattern(".git"),
+			filetypes = {"sh", "bash"}
 		}
 	end
 }

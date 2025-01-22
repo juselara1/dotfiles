@@ -21,6 +21,13 @@
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
+    - name: Install programming languajes support
+      pacman:
+        name: [
+          "lua-language-server", "bash-language-server"
+        ]
+      when: ansible_facts["distribution"] == "Archlinux"
+
     - name: Install nvidia drivers
       pacman:
         name: [
