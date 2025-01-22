@@ -29,34 +29,8 @@ return {
 
 		require("neodev").setup()
 		local lspconfig = require("lspconfig")
-		lspconfig.lua_ls.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
-			end,
-			settings = {
-				Lua = {
-					telemetry = {enable = false},
-					workspace = {checkThirdParty = false}
-				}
-			},
-			filetypes = {"lua"},
-			root_dir = lspconfig.util.root_pattern(".git")
-		}
-		lspconfig.jedi_language_server.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
-			end,
-			filetypes = {"python"},
-			single_file_support = false,
-			root_dir = lspconfig.util.root_pattern(".git")
-		}
-		lspconfig.clangd.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
-			end,
-			filetypes = {'c', "cuda"},
-			root_dir = lspconfig.util.root_pattern(".git"),
-		}
+
+		-- Terraform config
 		lspconfig.terraformls.setup {
 			on_attach = function (_, buffer)
 				set_keymaps(buffer)
@@ -71,19 +45,22 @@ return {
 			filetypes = {"terraform"},
 			root_dir = lspconfig.util.root_pattern(".git"),
 		}
-		lspconfig.texlab.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
+
+		-- Autocmds
+		vim.api.nvim_create_autocmd({"BufWritePost"}, {
+			pattern = {"*.tf", "*.tfvars"},
+			group = "AutoFormat",
+			callback = function()
+				vim.cmd("silent !terraform fmt %")
+				vim.cmd("edit")
 			end,
-			filetypes = {"latex", "tex"},
-			root_dir = lspconfig.util.root_pattern(".git"),
-		}
-		lspconfig.gopls.setup {
-			on_attach = function (_, buffer)
-				set_keymaps(buffer)
-			end,
-			filetypes = {"go"},
-			root_dir = lspconfig.util.root_pattern(".git"),
-		}
+		})
+		vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+			pattern = {"*.tf", "*.tfvars"},
+			callback = function(ev)
+				vim.bo[ev.buf].syntax = "terraform"
+				vim.bo[ev.buf].filetype = "terraform"
+			end
+		})
 	end
 }

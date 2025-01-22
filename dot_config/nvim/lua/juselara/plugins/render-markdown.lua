@@ -7,7 +7,7 @@ return {
 			"<leader>m",
 			mode="n",
 			":RenderMarkdown toggle",
-			desc="Oil file explorer"
+			desc="Render Markdown"
 		},
 	}
 }
