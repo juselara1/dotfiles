@@ -2,7 +2,8 @@
 
 # ================================================================================
 # pyenv
-if [[ -d "/usr/local/bin/pyenv" ]]; then
+if [[ -d "${HOME}/.pyenv" ]]; then
+	export PATH="${PATH}:${HOME}/.pyenv/bin"
     eval "$(pyenv init -)"
 fi
 

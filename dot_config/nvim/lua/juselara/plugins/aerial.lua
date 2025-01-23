@@ -8,7 +8,7 @@ return {
 			backends = { "treesitter", "lsp", "markdown", "man" },
 			layout = {
 				max_width = {0.3},
-				min_width = {0.1}
+				min_width = {0.1},
 				placement = "edge",
 				default_direction = "float"
 			}
