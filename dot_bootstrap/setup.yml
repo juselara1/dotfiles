@@ -6,12 +6,20 @@
 
   tasks:
 
+    # Update and upgrade
     - name: Update and upgrade
       pacman:
         update_cache: true
         upgrade: true
       when: ansible_facts["distribution"] == "Archlinux"
 
+    - name: Update and upgrade
+      apt:
+        update_cache: true
+        upgrade: true
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    # Command line utilities
     - name: Install command line utilities
       pacman:
         name: [
@@ -21,6 +29,22 @@
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
+    - name: Install command line utilities
+      apt:
+        name: [
+          "git", "tmux", "build-essential", "unzip", "zip", "ripgrep", "jq", "btop",
+          "tree", "tmux", "pass", "ca-certificates", "cmake", "ninja-build", "gettext",
+          "curl"
+        ]
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: "Install neovim"
+      script: "./install.sh nvim v0.10.3"
+      args:
+        executable: "/bin/bash"
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    # Programming languages support
     - name: Install programming languajes support
       pacman:
         name: [
