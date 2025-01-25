@@ -39,7 +39,7 @@
       when: ansible_facts["distribution"] == "Ubuntu"
 
     - name: "Install neovim"
-      script: "./install.sh nvim v0.10.3"
+      script: "build.sh nvim v0.10.3"
       args:
         executable: "/bin/bash"
       when: ansible_facts["distribution"] == "Ubuntu"
