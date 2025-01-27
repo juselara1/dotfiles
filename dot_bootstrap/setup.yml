@@ -176,7 +176,7 @@
         name: [
           "git", "tmux", "build-essential", "unzip", "zip", "ripgrep", "jq", "btop",
           "tree", "tmux", "pass", "ca-certificates", "cmake", "ninja-build", "gettext",
-          "curl"
+          "curl", "zoxide"
         ]
         install-recommends: false
       when: ansible_facts["distribution"] == "Ubuntu"
@@ -215,7 +215,13 @@
       when: ansible_facts["distribution"] == "Ubuntu"
 
     - name: Install Alacritty
-      script: "build.sh alacritty > /home/juselara/thelog"
+      script: "build.sh alacritty"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install fzf
+      script: "build.sh fzf"
       args:
         executable: "/usr/bin/env bash"
       when: ansible_facts["distribution"] == "Ubuntu"

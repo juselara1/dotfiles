@@ -18,5 +18,11 @@ alacritty () {
 	mv /root/.cargo/bin/alacritty /usr/local/bin/alacritty
 }
 
+fzf () {
+	git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
+	/root/.fzf/install --bin
+	mv /usr/bin/fzf /usr/local/bin/fzf
+}
+
 $*
 exit 0
