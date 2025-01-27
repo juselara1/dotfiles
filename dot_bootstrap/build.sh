@@ -7,5 +7,16 @@ nvim () {
 	popd
 }
 
+rust () {
+	curl https://sh.rustup.rs -sSf | sh -s -- -y
+	source /root/.cargo/env
+}
+
+alacritty () {
+	source /root/.cargo/env
+	cargo install alacritty
+	mv /root/.cargo/bin/alacritty /usr/local/bin/alacritty
+}
+
 $*
 exit 0

@@ -198,3 +198,24 @@
       args:
         executable: "/usr/bin/env bash"
       when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install Rust
+      script: "build.sh rust"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Alacritty Dependencies
+      apt:
+        name: [
+          "cmake", "g++", "pkg-config", "libfreetype6-dev", "libfontconfig1-dev", "libxcb-xfixes0-dev",
+          "libxkbcommon-dev", "python3"
+        ]
+        install-recommends: false
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install Alacritty
+      script: "build.sh alacritty > /home/juselara/thelog"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["distribution"] == "Ubuntu"
