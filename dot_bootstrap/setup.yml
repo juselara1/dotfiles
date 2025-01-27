@@ -5,21 +5,13 @@
   gather_facts: true
 
   tasks:
-
-    # Update and upgrade
+    # Arch
     - name: Update and upgrade
       pacman:
         update_cache: true
         upgrade: true
       when: ansible_facts["distribution"] == "Archlinux"
 
-    - name: Update and upgrade
-      apt:
-        update_cache: true
-        upgrade: true
-      when: ansible_facts["distribution"] == "Ubuntu"
-
-    # Command line utilities
     - name: Install command line utilities
       pacman:
         name: [
@@ -29,22 +21,12 @@
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
-    - name: Install command line utilities
-      apt:
-        name: [
-          "git", "tmux", "build-essential", "unzip", "zip", "ripgrep", "jq", "btop",
-          "tree", "tmux", "pass", "ca-certificates", "cmake", "ninja-build", "gettext",
-          "curl"
-        ]
-      when: ansible_facts["distribution"] == "Ubuntu"
-
     - name: "Install neovim"
       script: "build.sh nvim v0.10.3"
       args:
         executable: "/bin/bash"
       when: ansible_facts["distribution"] == "Ubuntu"
 
-    # Programming languages support
     - name: Install programming languajes support
       pacman:
         name: [
@@ -131,7 +113,7 @@
           x_cmd_setup = /etc/ly/xsetup.sh
           xauth_cmd = /usr/bin/xauth
           xsessions = /usr/share/xsessions
-
+      when: ansible_facts["distribution"] == "Archlinux"
 
     - name: Enable ly
       ansible.builtin.systemd_service:
@@ -187,3 +169,37 @@
         name: ["google-chrome", "nodejs-compose-language-service", "dockerfile-language-server"]
         use: paru
       when: ansible_facts["distribution"] == "Archlinux"
+
+    # Ubuntu
+    - name: Update and upgrade
+      apt:
+        update_cache: true
+        upgrade: true
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install command line utilities
+      apt:
+        name: [
+          "git", "tmux", "build-essential", "unzip", "zip", "ripgrep", "jq", "btop",
+          "tree", "tmux", "pass", "ca-certificates", "cmake", "ninja-build", "gettext",
+          "curl"
+        ]
+        no_install_recommends: true
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install build dependencies
+      apt:
+        name: [
+          "libconfig-dev", "libdbus-1-dev", "libegl-dev", "libev-dev", "libgl-dev", "libepoxy-dev",
+          "libpcre2-dev", "libpixman-1-dev", "libx11-xcb-dev", "libxcb1-dev", "libxcb-composite0-dev",
+          "libxcb-damage0-dev", "libxcb-glx0-dev", "libxcb-image0-dev", "libxcb-present-dev", "libxcb-randr0-dev",
+          "libxcb-render0-dev", "libxcb-render-util0-dev", "libxcb-shape0-dev", "libxcb-util-dev",
+          "libxcb-xfixes0-dev", "meson", "ninja-build", "uthash-dev", "gettext", "cmake", "curl"
+        ]
+        no_install_recommends: true
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install Neovim
+      script: "build.sh nvim"
+      args:
+        executable: "/usr/bin/env bash v0.10.3"

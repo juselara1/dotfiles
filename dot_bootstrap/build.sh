@@ -7,5 +7,8 @@ nvim () {
 	popd
 }
 
+picom () {
+}
+
 $*
 exit 0
