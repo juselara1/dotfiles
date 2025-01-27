@@ -2,7 +2,6 @@
 
 install_on_arch() {
 	sudo pacman -S --noconfirm ansible
-	ansible-galaxy collection install kewlfft.aur
 }
 
 install_on_ubuntu() {
@@ -18,6 +17,7 @@ get_os_name() {
 
 main() {
 	eval "install_on_`get_os_name`"
+	ansible-galaxy collection install kewlfft.aur
 	ansible-playbook ~/.bootstrap/setup.yml --ask-become-pass
 }
 
