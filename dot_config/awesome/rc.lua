@@ -16,7 +16,6 @@ end
 
 --- Modules
 local modules = {
-    "theme", "keybindings", "startup", "scripts",
-	"notify", "wallpaper"
+    "theme", "keybindings", "startup", "scripts", "notify"
 }
 setup(modules)

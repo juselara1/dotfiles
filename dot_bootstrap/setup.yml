@@ -176,7 +176,7 @@
         name: [
           "git", "tmux", "build-essential", "unzip", "zip", "ripgrep", "jq", "btop",
           "tree", "tmux", "pass", "ca-certificates", "cmake", "ninja-build", "gettext",
-          "curl", "zoxide"
+          "curl", "zoxide", "bat"
         ]
         install-recommends: false
       when: ansible_facts["distribution"] == "Ubuntu"
@@ -222,6 +222,40 @@
 
     - name: Install starship
       script: "build.sh starship"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install x11 dependencies
+      apt:
+        name: [
+          "xorg", "xinit", "xclip"
+        ]
+        install-recommends: false
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install WM and DM
+      apt:
+        name: [
+          "awesome", "feh", "polybar"
+        ]
+        install-recommends: false
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Picom Dependencies
+      apt:
+        name: [
+          "libconfig-dev", "libdbus-1-dev", "libegl-dev", "libev-dev", "libgl-dev", "libepoxy-dev",
+          "libpcre2-dev", "libpixman-1-dev", "libx11-xcb-dev", "libxcb1-dev", "libxcb-composite0-dev",
+          "libxcb-damage0-dev", "libxcb-glx0-dev", "libxcb-image0-dev", "libxcb-present-dev",
+          "libxcb-randr0-dev", "libxcb-render0-dev", "libxcb-render-util0-dev", "libxcb-shape0-dev",
+          "libxcb-util-dev", "libxcb-xfixes0-dev", "meson", "ninja-build", "uthash-dev"
+        ]
+        install-recommends: false
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install Picom
+      script: "build.sh picom"
       args:
         executable: "/usr/bin/env bash"
       when: ansible_facts["distribution"] == "Ubuntu"

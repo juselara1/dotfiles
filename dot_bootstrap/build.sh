@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
 nvim () {
-	git clone "https://github.com/neovim/neovim.git" "/tmp/neovim" --depth 1 --branch "${1}"
-	pushd "/tmp/neovim"
-	make install
-	popd
+	if [[ ! -f "/usr/local/bin/nvim" ]]; then
+		git clone "https://github.com/neovim/neovim.git" "/tmp/neovim" --depth 1 --branch "${1}"
+		pushd "/tmp/neovim"
+		make install
+		popd
+	fi
 }
 
 rust () {
@@ -25,8 +27,16 @@ fzf () {
 	/root/.fzf/install --bin
 }
 
-starship() {
+starship () {
 	curl -sS https://starship.rs/install.sh | sh -s -- -y
+}
+
+picom () {
+	git clone --depth 1 https://github.com/yshui/picom /tmp/picom
+	pushd /tmp/picom
+	meson setup --buildtype=release build
+	ninja -C build install
+	popd
 }
 
 $*
