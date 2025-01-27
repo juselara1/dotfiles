@@ -23,8 +23,11 @@ alacritty () {
 }
 
 fzf () {
-	git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
-	/root/.fzf/install --bin
+	if [[ ! -f "/usr/local/bin/fzf" ]]; then
+		git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf
+		/root/.fzf/install --bin
+		mv /root/.fzf/bin/fzf /usr/local/bin/fzf
+	fi
 }
 
 starship () {
@@ -32,11 +35,25 @@ starship () {
 }
 
 picom () {
-	git clone --depth 1 https://github.com/yshui/picom /tmp/picom
-	pushd /tmp/picom
-	meson setup --buildtype=release build
-	ninja -C build install
-	popd
+	if [[ ! -f "/usr/local/bin/picom" ]]; then
+		git clone --depth 1 https://github.com/yshui/picom /tmp/picom
+		pushd /tmp/picom
+		meson setup --buildtype=release build
+		ninja -C build install
+		popd
+	fi
+}
+
+docker-ubuntu () {
+	install -m 0755 -d /etc/apt/keyrings
+	curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	chmod a+r /etc/apt/keyrings/docker.asc
+
+	echo \
+	  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+	  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+	  tee /etc/apt/sources.list.d/docker.list > /dev/null
+	apt update
 }
 
 $*

@@ -259,3 +259,27 @@
       args:
         executable: "/usr/bin/env bash"
       when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Images and capture
+      apt:
+        name: [
+          "sxiv", "zathura", "zathura-pdf-poppler", "zathura-djvu", "zathura-ps", "inkscape", "mpv",
+          "scrot", "obs-studio"
+        ]
+        install-recommends: false
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Setup docker
+      script: "build.sh docker-ubuntu"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install docker
+      apt:
+        name: [
+          "docker-ce", "docker-ce-cli", "containerd.io", "docker-buildx-plugin", "docker-compose-plugin"
+        ]
+        install-recommends: false
+      when: ansible_facts["distribution"] == "Ubuntu"
+
