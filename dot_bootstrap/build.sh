@@ -56,5 +56,12 @@ docker-ubuntu () {
 	apt update
 }
 
+monaspace () {
+	git clone --depth 1 https://github.com/githubnext/monaspace.git /tmp/monaspace
+	pushd /tmp/monaspace
+	bash util/install_linux.sh
+	popd
+}
+
 $*
 exit 0

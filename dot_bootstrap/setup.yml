@@ -269,6 +269,20 @@
         install-recommends: false
       when: ansible_facts["distribution"] == "Ubuntu"
 
+    - name: Install Fonts
+      apt: 
+        name: [
+          "fonts-noto-color-emoji"
+        ]
+        install-recommends: false
+      when: ansible_facts["distribution"] == "Ubuntu"
+
+    - name: Install Monaspace Font
+      script: "build.sh monaspace"
+      args:
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["distribution"] == "Ubuntu"
+
     - name: Setup docker
       script: "build.sh docker-ubuntu"
       args:
