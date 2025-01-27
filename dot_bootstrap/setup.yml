@@ -21,12 +21,6 @@
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
-    - name: "Install neovim"
-      script: "build.sh nvim v0.10.3"
-      args:
-        executable: "/bin/bash"
-      when: ansible_facts["distribution"] == "Ubuntu"
-
     - name: Install programming languajes support
       pacman:
         name: [
@@ -184,7 +178,7 @@
           "tree", "tmux", "pass", "ca-certificates", "cmake", "ninja-build", "gettext",
           "curl"
         ]
-        no_install_recommends: true
+        install-recommends: false
       when: ansible_facts["distribution"] == "Ubuntu"
 
     - name: Install build dependencies
@@ -196,10 +190,11 @@
           "libxcb-render0-dev", "libxcb-render-util0-dev", "libxcb-shape0-dev", "libxcb-util-dev",
           "libxcb-xfixes0-dev", "meson", "ninja-build", "uthash-dev", "gettext", "cmake", "curl"
         ]
-        no_install_recommends: true
+        install-recommends: false
       when: ansible_facts["distribution"] == "Ubuntu"
 
     - name: Install Neovim
-      script: "build.sh nvim"
+      script: "build.sh nvim v0.10.3"
       args:
-        executable: "/usr/bin/env bash v0.10.3"
+        executable: "/usr/bin/env bash"
+      when: ansible_facts["distribution"] == "Ubuntu"
