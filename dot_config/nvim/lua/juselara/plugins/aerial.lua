@@ -6,9 +6,11 @@ return {
 	config = function ()
 		require("aerial").setup {
 			backends = { "treesitter", "lsp", "markdown", "man" },
+			max_width = {0.5, 40},
 			layout = {
-				placemnt = "window",
-				default_direction = "right"
+				placement = "window",
+				default_direction = "float",
+				resize_to_content = true
 			}
 		}
 	end,
