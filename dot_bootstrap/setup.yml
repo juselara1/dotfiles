@@ -120,7 +120,8 @@
       pacman:
         name: [
           "sxiv", "zathura", "zathura-pdf-mupdf", "zathura-djvu",
-          "zathura-ps", "mpv", "inkscape", "scrot", "obs-studio"
+          "zathura-ps", "mpv", "inkscape", "scrot", "obs-studio",
+          "shotcut"
         ]
       when: ansible_facts["distribution"] == "Archlinux"
 
@@ -160,7 +161,9 @@
       become: yes
       become_user: aur_builder
       kewlfft.aur.aur:
-        name: ["google-chrome", "nodejs-compose-language-service", "dockerfile-language-server"]
+        name: [
+          "google-chrome", "nodejs-compose-language-service", "dockerfile-language-server"
+        ]
         use: paru
       when: ansible_facts["distribution"] == "Archlinux"
 
