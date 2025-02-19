@@ -14,13 +14,13 @@ if command -v fzf > /dev/null 2>&1; then
 fi
 
 # ================================================================================
-# zoxide
-if command -v zoxide > /dev/null 2>&1; then
-	eval "$(zoxide init bash)"
-fi
-
-# ================================================================================
 # starship
 if command -v starship > /dev/null 2>&1; then
 	eval "$(starship init bash)"
+fi
+
+# ================================================================================
+# zoxide
+if command -v zoxide > /dev/null 2>&1; then
+	eval "$(zoxide init bash)"
 fi
