@@ -6,6 +6,7 @@ return {
 	config = function ()
 		require("aerial").setup {
 			backends = { "treesitter", "lsp", "markdown", "man" },
+			max_width = {0.5, 40},
 			layout = {
 				max_width = {0.3},
 				min_width = {0.1},
