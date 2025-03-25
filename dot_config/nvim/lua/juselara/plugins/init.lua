@@ -4,6 +4,7 @@ return {
 	require("juselara.plugins.comment"),
 	require("juselara.plugins.heirline"),
 	require("juselara.plugins.kanagawa"),
+	require("juselara.plugins.lspconfig"),
 	require("juselara.plugins.marks"),
 	require("juselara.plugins.miniai"),
 	require("juselara.plugins.nvim-tree"),
