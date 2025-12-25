@@ -93,6 +93,14 @@ local function setup_python(group)
 					local output = vim.fn.system("ruff check --output-format concise .")
 					vim.fn.setqflist({}, "r", { title = "ruff", lines = vim.split(output, "\n") })
         end
+      },
+      {
+        executable = "ty",
+        lint_fn = function()
+          vim.o.errorformat = "%f:%l:%c: %m"
+          local output = vim.fn.system("ty check --output-format concise --color never .")
+					vim.fn.setqflist({}, "r", { title = "ruff", lines = vim.split(output, "\n") })
+        end
       }
     }
   }

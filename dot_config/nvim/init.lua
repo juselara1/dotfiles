@@ -1,6 +1,7 @@
 require("options")
 require("keybindings")
-require("explorer")
+require("lazy_config")
+-- require("explorer")
 require("statusline")
 require("style")
 require("format")
