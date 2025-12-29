@@ -2,27 +2,22 @@
 
 # edit
 e() {
-	if [[ -z "${1}" ]]; then
-		local server_name="server"
-	else
-		local server_name="${1}"
-	fi
-	local server="${HOME}/.cache/nvim/${server_name}.pipe"
-	if [[ ! -S "${server}" ]]; then
-		nvim --listen "${server}"
-	else
-		nvim --server "${server}" --remote-send "<CMD>cd ${PWD}<CR>"
-		nvim --server "${server}" --remote-ui
-	fi
+    if [[ $# -eq 0 || -z "$1" ]]; then
+        nvim
+    else
+        nvim -- "$1"
+    fi
 }
 
 _e_completions() {
-	local servers=`find ~/.cache/nvim/ -maxdepth 1 \
-		| awk -F '/' '{print $NF}'\
-		| grep -P 'pipe' \
-		| sed 's/\.pipe//g' \
-		| xargs`
-	COMPREPLY=(`compgen -W "${servers}" "${COMP_WORDS[1]}"`)
+    local cur="${COMP_WORDS[COMP_CWORD]}"
+    local files=()
+
+    mapfile -t files < <(
+        find . -maxdepth 1 -type f -printf '%f\n'
+    )
+
+    COMPREPLY=($(compgen -W "${files[*]}" -- "$cur"))
 }
 complete -F _e_completions e
 
@@ -33,5 +28,5 @@ po() {
 
 # copy
 copy() {
-    xclip -sel clip < "$1"
+    wl-copy < "$1"
 }
