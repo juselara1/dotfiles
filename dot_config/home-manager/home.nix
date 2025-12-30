@@ -19,6 +19,9 @@ in
     # general
     git gnumake
 
+    # development
+    stylua
+
     # images
     sxiv zathura inkscape
 

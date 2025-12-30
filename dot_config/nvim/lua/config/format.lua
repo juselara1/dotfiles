@@ -18,12 +18,12 @@ local function setup_code_format_autocmd(config, group)
 				logging.info(("[format] Executable '%s' found in path."):format(config.executable))
 				vim.keymap.set("n", "<leader>cf", function()
 					local filename = vim.api.nvim_buf_get_name(0)
-          local commands = config.cmd_fn(filename)
-          for _, command in ipairs(commands) do
-            vim.cmd("silent! write")
-            vim.cmd("silent! " .. command)
-            vim.cmd("silent! edit")
-          end
+					local commands = config.cmd_fn(filename)
+					for _, command in ipairs(commands) do
+						vim.cmd("silent! write")
+						vim.cmd("silent! " .. command)
+						vim.cmd("silent! edit")
+					end
 				end, { silent = true, noremap = true, desc = "[C]ode [F]ormat" })
 			else
 				logging.warning(("[format] Executable '%s' not found."):format(config.executable))
@@ -39,7 +39,7 @@ local function setup_lua(group)
 		pattern = { "*.lua" },
 		executable = "stylua",
 		cmd_fn = function(filename)
-			return {"!stylua " .. filename}
+			return { "!stylua " .. filename }
 		end,
 	}
 	setup_code_format_autocmd(config, group)
@@ -53,9 +53,9 @@ local function setup_python(group)
 		executable = "ruff",
 		cmd_fn = function(filename)
 			return {
-        "!ruff format " .. filename,
-        "!autoflake --in-place --remove-unused-variables " .. filename
-      }
+				"!ruff format " .. filename,
+				"!autoflake --in-place --remove-unused-variables " .. filename,
+			}
 		end,
 	}
 	setup_code_format_autocmd(config, group)
@@ -68,7 +68,7 @@ local function setup_c(group)
 		pattern = { "*.c", "*.h" },
 		executable = "clang-format",
 		cmd_fn = function(filename)
-			return {"!clang-format -style=llvm -i " .. filename}
+			return { "!clang-format -style=llvm -i " .. filename }
 		end,
 	}
 	setup_code_format_autocmd(config, group)
@@ -81,7 +81,7 @@ local function setup_json(group)
 		pattern = { "*.json" },
 		executable = "jq",
 		cmd_fn = function(_)
-			return {"%!jq"}
+			return { "%!jq" }
 		end,
 	}
 	setup_code_format_autocmd(config, group)
@@ -92,10 +92,10 @@ end
 local function setup_terraform()
 	local config = {
 		pattern = { "*.tf", "*.tfvars" },
-    executable = "terraform",
-    cmd_fn = function(filename)
-      return {"!terraform fmt " .. filename}
-    end
+		executable = "terraform",
+		cmd_fn = function(filename)
+			return { "!terraform fmt " .. filename }
+		end,
 	}
 	setup_code_format_autocmd(config, group)
 end
@@ -107,7 +107,7 @@ local function main()
 	setup_python(group)
 	setup_c(group)
 	setup_json(group)
-  setup_terraform(group)
+	setup_terraform(group)
 end
 
 main()

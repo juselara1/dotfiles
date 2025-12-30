@@ -75,35 +75,35 @@ end
 ---Setups linters for Python
 ---@param group any # Neovim augroup.
 local function setup_python(group)
-  local config = {
-    pattern = { "*.py" },
-    linters = {
-      {
-        executable = "mypy",
-        lint_fn = function()
+	local config = {
+		pattern = { "*.py" },
+		linters = {
+			{
+				executable = "mypy",
+				lint_fn = function()
 					vim.o.errorformat = "%f:%l:%c: %m"
 					local output = vim.fn.system("mypy --show-column-numbers .")
 					vim.fn.setqflist({}, "r", { title = "mypy", lines = vim.split(output, "\n") })
-        end
-      },
-      {
-        executable = "ruff",
-        lint_fn = function()
+				end,
+			},
+			{
+				executable = "ruff",
+				lint_fn = function()
 					vim.o.errorformat = "%f:%l:%c: %m"
 					local output = vim.fn.system("ruff check --output-format concise .")
 					vim.fn.setqflist({}, "r", { title = "ruff", lines = vim.split(output, "\n") })
-        end
-      },
-      {
-        executable = "ty",
-        lint_fn = function()
-          vim.o.errorformat = "%f:%l:%c: %m"
-          local output = vim.fn.system("ty check --output-format concise --color never .")
+				end,
+			},
+			{
+				executable = "ty",
+				lint_fn = function()
+					vim.o.errorformat = "%f:%l:%c: %m"
+					local output = vim.fn.system("ty check --output-format concise --color never .")
 					vim.fn.setqflist({}, "r", { title = "ruff", lines = vim.split(output, "\n") })
-        end
-      }
-    }
-  }
+				end,
+			},
+		},
+	}
 	setup_lint_autocmd(config, group)
 end
 
@@ -111,7 +111,7 @@ end
 local function main()
 	local group = vim.api.nvim_create_augroup("Lint", {})
 	setup_lua(group)
-  setup_python(group)
+	setup_python(group)
 end
 
 main()

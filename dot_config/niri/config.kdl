@@ -56,9 +56,9 @@ layout {
 
     border {
         width 4
-        active-gradient from="#689D6A" to="#282828" angle=180
-        inactive-gradient from="#83A598" to="#282828" angle=180
-        urgent-color "#F9716C"
+        active-gradient from="#A7C080" to="#2D353B" angle=180
+        inactive-gradient from="#83C092" to="#2D353B" angle=180
+        urgent-color "#E67E80"
     }
 
     shadow {

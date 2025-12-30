@@ -1,14 +1,14 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
-  branch = "main",
+	branch = "main",
 	build = ":TSUpdate",
 	lazy = false,
 	config = function()
 		if vim.fn.executable("tree-sitter-cli") then
 			local languages = {
 				"c",
-        "json",
-        "lua",
+				"json",
+				"lua",
 				"python",
 				"toml",
 				"go",
@@ -23,8 +23,8 @@ return {
 					vim.treesitter.start()
 				end,
 			})
-    else
-      logging.warning("[treesitter] `tree-sitter-cli` command not found")
+		else
+			logging.warning("[treesitter] `tree-sitter-cli` command not found")
 		end
 	end,
 }

@@ -17,9 +17,9 @@ return {
 			["<C-k>"] = "CollapseAll",
 			["<BS>"] = "CollapseNode",
 		}
-    config.views.finder.win.win_opts.number = true
-    config.views.finder.win.win_opts.relativenumber = true
-    fyler.setup(config)
+		config.views.finder.win.win_opts.number = true
+		config.views.finder.win.win_opts.relativenumber = true
+		fyler.setup(config)
 	end,
 	keys = {
 		{
@@ -27,7 +27,7 @@ return {
 			function()
 				require("fyler").open({ kind = "split_left_most" })
 			end,
-      desc = "[E]dit file"
+			desc = "[E]dit file",
 		},
 	},
 }

@@ -19,7 +19,7 @@ return {
 					adapter = provider,
 				},
 				cmd = {
-					adapter = provider
+					adapter = provider,
 				},
 				background = {
 					adapter = provider,

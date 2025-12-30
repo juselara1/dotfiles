@@ -6,7 +6,7 @@
 local function in_table(tbl, value)
 	local condition = false
 	for _, elem in ipairs(tbl) do
-		if (value == elem) then
+		if value == elem then
 			condition = true
 		end
 	end
@@ -18,7 +18,7 @@ end
 ---@param b number # Second number.
 ---@return number # Minimum number.
 local function min(a, b)
-	if (a <= b) then
+	if a <= b then
 		return a
 	else
 		return b
@@ -39,20 +39,20 @@ local function zip(a, b, key1, key2)
 	local valid_key1
 	local valid_key2
 
-	if (key1 == nil) then
+	if key1 == nil then
 		valid_key1 = 1
 	else
 		valid_key1 = key1
 	end
 
-	if (key2 == nil) then
+	if key2 == nil then
 		valid_key2 = 2
 	else
 		valid_key2 = key2
 	end
 
-	for i=1,len do
-		table.insert(result, {[valid_key1] = a[i], [valid_key2] = b[i]})
+	for i = 1, len do
+		table.insert(result, { [valid_key1] = a[i], [valid_key2] = b[i] })
 	end
 	return result
 end
@@ -126,7 +126,7 @@ local function strjoin(strings, sep)
 		valid_sep = sep
 	end
 
-	for i=1,(len - 1) do
+	for i = 1, (len - 1) do
 		table.insert(result, strings[i])
 		table.insert(result, valid_sep)
 	end

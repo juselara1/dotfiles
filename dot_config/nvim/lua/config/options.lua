@@ -34,16 +34,6 @@ local function setup_visual()
 	vim.o.ruler = false -- Don't show cursor position.
 end
 
---- Setups colorscheme.
-local function setup_colorscheme()
-	vim.cmd("colorscheme habamax") -- Setup colorscheme.
-	vim.o.background = "dark" -- Specify dark mode to color groups.
-	vim.api.nvim_set_hl(0, "Normal", { bg = "none" }) -- Transparent background.
-	vim.api.nvim_set_hl(0, "NormalNC", { bg = "none" }) -- Transparent background.
-	vim.api.nvim_set_hl(0, "EndOfBuffer", { bg = "none" }) -- Transparent background.
-	vim.o.winblend = 0 -- Transparency for popup windows.
-end
-
 ---Setups text options.
 local function setup_text()
 	vim.o.encoding = "utf-8" -- Text encoding.
@@ -90,7 +80,6 @@ local function main()
 	setup_basic()
 	setup_indentation()
 	setup_visual()
-	setup_colorscheme()
 	setup_text()
 	setup_file_handling()
 	setup_behavior()
