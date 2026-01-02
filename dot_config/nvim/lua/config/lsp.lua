@@ -132,12 +132,20 @@ local function setup_c(group)
 end
 
 ---Main entrypoint.
+-- local function main()
+-- 	vim.diagnostic.enable(false)
+-- 	local group = vim.api.nvim_create_augroup("Lsp", {})
+-- 	setup_lua(group)
+-- 	setup_python(group)
+-- 	setup_c(group)
+-- end
+
 local function main()
 	vim.diagnostic.enable(false)
-	local group = vim.api.nvim_create_augroup("Lsp", {})
-	setup_lua(group)
-	setup_python(group)
-	setup_c(group)
+	vim.lsp.config("*", {
+		capabilities = require("blink.cmp").get_lsp_capabilities(),
+	})
+	vim.lsp.enable({ "lua_ls" })
 end
 
 main()

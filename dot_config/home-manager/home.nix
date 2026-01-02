@@ -1,13 +1,15 @@
-{ config, pkgs, ... }:
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   username = "juselara";
   home_path = "/home/${username}";
-in
-{
+in {
   nixpkgs = {
     config = {
       allowUnfree = true;
-      allowUnfreePredicate = (_: true);
+      allowUnfreePredicate = _: true;
     };
   };
   home.username = "${username}";
@@ -17,17 +19,45 @@ in
 
   home.packages = with pkgs; [
     # general
-    git gnumake
+    git
+    gnumake
 
-    # development
+    # lua
     stylua
+    lua-language-server
+
+    # nix
+    alejandra
+
+    # toml
+    tombi
+
+    # docker
+    dockerfmt
+
+    # bash
+    shellharden
 
     # images
-    sxiv zathura inkscape
+    sxiv
+    zathura
+    inkscape
 
     # command line
-    zoxide bat jq fzf unzip zip btop tree gh tmux
-    nix-search-cli monaspace chezmoi starship
+    zoxide
+    bat
+    jq
+    fzf
+    unzip
+    zip
+    btop
+    tree
+    gh
+    tmux
+    nix-search-cli
+    monaspace
+    chezmoi
+    starship
 
     # browser
     google-chrome
@@ -36,10 +66,16 @@ in
     pass
 
     # desktop
-    eww pulsemixer grim slurp wl-clipboard swww
+    eww
+    pulsemixer
+    grim
+    slurp
+    wl-clipboard
+    swww
 
     # text editor
-    neovim tree-sitter
+    neovim
+    tree-sitter
 
     # terminal emulator
     alacritty
