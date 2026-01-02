@@ -22,6 +22,9 @@ in {
     git
     gnumake
 
+    # python
+    pyenv
+
     # lua
     stylua
     lua-language-server

@@ -1,4 +1,4 @@
-local fn = require("functions")
+local fn = require("config.functions")
 
 ---@alias InitFn fun(table): nil
 ---@alias ProviderFn fun(table): nil
