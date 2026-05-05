@@ -27,3 +27,41 @@ else
   PS1="\[${COL_LINES}\]┌──[\[${COL_USER}\]\u@${COL_HOST}\h\[${COL_LINES}\]]─[\[${COL_PATH}\]\w\[${COL_LINES}\]]\n\[${COL_LINES}\]└─\[${COL_PATH}\]\$ \[${COL_RESET}\]"
 fi
 export PS1
+
+# fzf
+ble-import -d integration/fzf-completion
+ble-import -d integration/fzf-key-bindings
+
+# everforest
+ble-face -s syntax_default    fg=223   # fg (#d3c6aa)
+
+# commands / keywords (green)
+ble-face -s syntax_command    fg=108,bold   # #a7c080
+ble-face -s command_builtin   fg=108
+ble-face -s command_keyword   fg=72         # darker green
+
+# strings (yellow/orange)
+ble-face -s syntax_quoted     fg=180        # #dbbc7f
+ble-face -s syntax_quotation  fg=180,bold
+
+# variables (aqua)
+ble-face -s syntax_varname    fg=109        # #83c092
+
+# comments (gray, soft)
+ble-face -s syntax_comment    fg=243        # #7a8478
+
+# errors (red, muted)
+ble-face -s syntax_error      fg=203,bold   # #e67e80
+
+# operators / delimiters
+ble-face -s syntax_delimiter  fg=246
+
+# expansions (purple-ish)
+ble-face -s syntax_param_expansion fg=175   # #d699b6
+
+# escapes
+ble-face -s syntax_escape     fg=175
+
+# directories / files (blue-green)
+ble-face -s command_directory fg=109,underline
+ble-face -s command_file      fg=108
