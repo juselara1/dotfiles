@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+ble-color-setface auto_complete fg=238,underline
+ble-face -s syntax_error fg=242
+bleopt complete_ambiguous=
+
+get_color() { tput setaf "$1"; }
+
+# Can be changed to whatever color number you want (0-15)
+COL_LINES="$(get_color 6)"
+COL_USER="$(get_color 2)"
+COL_HOST="$(get_color 2)"
+COL_PATH="$(get_color 12)"
+COL_ROOT="$(get_color 1)"
+COL_GIT="$(get_color 5)"
+COL_RESET="$(tput sgr0)"
+
+# prompt
+ble-import contrib/prompt-git
+bleopt prompt_rps1="\q{contrib/git-info}"
+bleopt prompt_ps1_final=
+bleopt prompt_ps1_transient=trim
+
+if [ "$EUID" -eq 0 ]; then
+  PS1="\[${COL_LINES}\]┌──\[${COL_ROOT}\]\u@${COL_HOST}\h\[${COL_LINES}\]]─[\[${COL_PATH}\]\w\[${COL_LINES}\]]\n\[${COL_LINES}\]└─\[${COL_PATH}\]# \[${COL_RESET}\]"
+else
+  PS1="\[${COL_LINES}\]┌──[\[${COL_USER}\]\u@${COL_HOST}\h\[${COL_LINES}\]]─[\[${COL_PATH}\]\w\[${COL_LINES}\]]\n\[${COL_LINES}\]└─\[${COL_PATH}\]\$ \[${COL_RESET}\]"
+fi
+export PS1

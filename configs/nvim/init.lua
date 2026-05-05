@@ -1,0 +1,8 @@
+require("config.options")
+require("config.keybindings")
+require("config.lazy")
+-- require("statusline")
+require("config.style")
+require("config.lint")
+-- require("config.tmux")
+require("config.lsp")
