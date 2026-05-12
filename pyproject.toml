@@ -1,0 +1,20 @@
+[project]
+name = "dotfiles"
+version = "0.1.0"
+description = "Personal dotfiles"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "decman",
+    "decman-pacman",
+]
+
+[tool.uv.sources]
+decman = { git = "https://github.com/kiviktnm/decman" }
+decman-pacman = { git = "https://github.com/kiviktnm/decman", subdirectory = "plugins/decman-pacman" }
+
+[dependency-groups]
+dev = [
+    "jedi-language-server>=0.46.0",
+    "ruff>=0.15.12",
+]

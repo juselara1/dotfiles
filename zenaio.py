@@ -15,12 +15,13 @@ from modules.docker import DockerPackages
 from modules.displaylink import DisplayLinkPackages
 from modules.tmux import TmuxPackages
 from modules.alacritty import AlacrittyPackages
-from modules.blesh import BleshPackages
+# from modules.blesh import BleshPackages
 from modules.shell import ShellPackages
 from modules.nvim import NvimPackages
 from modules.browser import BrowserPackages
 from modules.git import GitPackages
 from modules.password import PasswordPackages
+from modules.goose import GoosePackages
 
 
 USERNAME = "juselara"
@@ -39,7 +40,8 @@ decman.modules += [
         DockerPackages(),
         DisplayLinkPackages(),
         BrowserPackages(),
-        BleshPackages(user=USERNAME),
+        GoosePackages(),
+        # BleshPackages(user=USERNAME),
         PasswordPackages(user=USERNAME),
         TmuxPackages(user=USERNAME),
         NiriPackages(user=USERNAME),

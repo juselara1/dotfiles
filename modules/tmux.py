@@ -9,11 +9,11 @@ class TmuxPackages(Module):
         self.user = user
 
     def directories(self) -> Dict[str, Directory]:
-        return {f"/home/{self.user}/.config/tmux": Directory(
-            source_directory="./configs/tmux/",
-            owner=self.user,
-            permissions=0o755
-            )}
+        return {
+            f"/home/{self.user}/.config/tmux": Directory(
+                source_directory="./configs/tmux/", owner=self.user, permissions=0o755
+            )
+        }
 
     @pacman.packages
     def pkgs(self) -> Set[str]:

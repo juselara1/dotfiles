@@ -12,9 +12,10 @@ class GitPackages(Module):
     def pkgs(self) -> Set[str]:
         return {"git", "github-cli"}
 
-
     def directories(self) -> Dict[str, Directory]:
-        return {f"/home/{self.user}/.config/git": Directory(
-            source_directory="./configs/git/",
-            owner=self.user,
-            )}
+        return {
+            f"/home/{self.user}/.config/git": Directory(
+                source_directory="./configs/git/",
+                owner=self.user,
+            )
+        }

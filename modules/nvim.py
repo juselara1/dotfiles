@@ -9,10 +9,12 @@ class NvimPackages(Module):
         self.user = user
 
     def directories(self) -> Dict[str, Directory]:
-        return {f"/home/{self.user}/.config/nvim": Directory(
-            source_directory="./configs/nvim/",
-            owner=self.user,
-            )}
+        return {
+            f"/home/{self.user}/.config/nvim": Directory(
+                source_directory="./configs/nvim/",
+                owner=self.user,
+            )
+        }
 
     @pacman.packages
     def pkgs(self) -> Set[str]:

@@ -9,4 +9,9 @@ class FontsPackages(Module):
 
     @pacman.packages
     def pkgs(self) -> Set[str]:
-        return {"noto-fonts", "noto-fonts-emoji", "otf-monaspace"}
+        return {
+            "noto-fonts",
+            "noto-fonts-emoji",
+            "ttf-nerd-fonts-symbols-mono",
+            "otf-monaspace",
+        }

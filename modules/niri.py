@@ -9,10 +9,11 @@ class NiriPackages(Module):
         self.user = user
 
     def directories(self) -> Dict[str, Directory]:
-        return {f"/home/{self.user}/.config/niri": Directory(
-            source_directory="./configs/niri/",
-            owner=self.user
-            )}
+        return {
+            f"/home/{self.user}/.config/niri": Directory(
+                source_directory="./configs/niri/", owner=self.user
+            )
+        }
 
     @pacman.packages
     def pkgs(self) -> Set[str]:

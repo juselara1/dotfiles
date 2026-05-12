@@ -9,12 +9,11 @@ class PasswordPackages(Module):
         self.user = user
 
     def directories(self) -> Dict[str, Directory]:
-        return {f"/home/{self.user}/.config/gnupg": Directory(
-            source_directory="./configs/gnupg/",
-            owner=self.user,
-            permissions=0o700
-            )}
-
+        return {
+            f"/home/{self.user}/.config/gnupg": Directory(
+                source_directory="./configs/gnupg/", owner=self.user, permissions=0o700
+            )
+        }
 
     @pacman.packages
     def pkgs(self) -> Set[str]:

@@ -9,4 +9,15 @@ class CommandLinePackages(Module):
 
     @pacman.packages
     def pkgs(self) -> Set[str]:
-        return {"git", "make", "unzip", "zip", "ripgrep", "zoxide", "bat", "fzf", "tree", "openssh"}
+        return {
+            "git",
+            "make",
+            "unzip",
+            "zip",
+            "ripgrep",
+            "zoxide",
+            "bat",
+            "fzf",
+            "tree",
+            "openssh",
+        }

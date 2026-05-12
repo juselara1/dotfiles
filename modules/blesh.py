@@ -8,13 +8,12 @@ class BleshPackages(Module):
         super().__init__(name="blesh")
         self.user = user
 
-
     def files(self) -> Dict[str, File]:
-        return {f"/home/{self.user}/.blerc": File(
-            source_file="./configs/blesh/blerc",
-            owner=self.user
-            )}
-
+        return {
+            f"/home/{self.user}/.blerc": File(
+                source_file="./configs/blesh/blerc", owner=self.user
+            )
+        }
 
     @aur.packages
     def aurpkgs(self) -> Set[str]:

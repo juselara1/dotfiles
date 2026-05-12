@@ -9,4 +9,13 @@ class MultimediaPackages(Module):
 
     @pacman.packages
     def pkgs(self) -> Set[str]:
-        return {"imv", "zathura", "zathura-pdf-poppler", "zathura-djvu", "zathura-ps", "mpv", "inkscape", "obs-studio"}
+        return {
+            "imv",
+            "zathura",
+            "zathura-pdf-poppler",
+            "zathura-djvu",
+            "zathura-ps",
+            "mpv",
+            "inkscape",
+            "obs-studio",
+        }

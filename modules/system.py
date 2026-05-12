@@ -9,7 +9,17 @@ class SystemPackages(Module):
 
     @pacman.packages
     def pkgs(self) -> Set[str]:
-        return {"base", "linux", "linux-firmware", "linux-headers", "base-devel", "networkmanager", "btrfs-progs", "grub", "efibootmgr"}
+        return {
+            "base",
+            "linux",
+            "linux-firmware",
+            "linux-headers",
+            "base-devel",
+            "networkmanager",
+            "btrfs-progs",
+            "grub",
+            "efibootmgr",
+        }
 
     @aur.packages
     def aurpkgs(self) -> Set[str]:
