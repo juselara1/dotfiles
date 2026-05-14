@@ -15,7 +15,6 @@ from modules.docker import DockerPackages
 from modules.displaylink import DisplayLinkPackages
 from modules.tmux import TmuxPackages
 from modules.alacritty import AlacrittyPackages
-# from modules.blesh import BleshPackages
 from modules.shell import ShellPackages
 from modules.nvim import NvimPackages
 from modules.browser import BrowserPackages
@@ -41,7 +40,6 @@ decman.modules += [
         DisplayLinkPackages(),
         BrowserPackages(),
         GoosePackages(),
-        # BleshPackages(user=USERNAME),
         PasswordPackages(user=USERNAME),
         TmuxPackages(user=USERNAME),
         NiriPackages(user=USERNAME),
