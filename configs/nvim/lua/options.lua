@@ -102,6 +102,7 @@ end
 function M.set_display()
 	vim.o.termguicolors = true -- Enable 24 bit colors.
 	vim.o.lazyredraw = true -- Don't redraw during macros.
+	vim.o.listchars = "tab:→\\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:»"
 end
 
 ---Setups UI chrome.
