@@ -1,9 +1,11 @@
 local fn = require("functions")
 
+local M = {}
+
 ---Component for spacing.
 ---@param n_spaces integer # Number of spaces.
 ---@return string # Spaces.
-local function statusline_spaces(n_spaces)
+function M.spaces(n_spaces)
 	local spaces = ""
 	for _ = 1, n_spaces do
 		spaces = spaces .. " "
@@ -13,7 +15,7 @@ end
 
 ---Component that displays the current git branch.
 ---@return string # Git branch.
-local function statusline_branch()
+function M.git_branch()
 	local branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\n'")
 	if branch ~= "" then
 		return (" %s"):format(branch)
@@ -24,7 +26,7 @@ end
 
 ---Component that displays the filetype icon.
 ---@return string # Filetype icon
-local function statusline_filetype()
+function M.filetype()
 	local ft = vim.bo.filetype
 	local icons = {
 		lua = "",
@@ -51,7 +53,7 @@ end
 
 ---Component that displays the filename.
 ---@return string # Filename.
-local function statusline_filename()
+function M.filename()
 	if vim.fn.empty(vim.fn.expand("%:t")) ~= 1 then
 		return ("%s"):format(vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":t"))
 	else
@@ -59,10 +61,10 @@ local function statusline_filename()
 	end
 end
 
----Convert mode to human readable text.
----@param mode string # Vim mode.
----@return string # Human-readable mode.
-local function mode_to_readable(mode)
+---Component that displays the current vim mode.
+---@return string # Filetype icon
+function M.vim_mode()
+  local mode = vim.fn.mode()
 	if fn.in_table({ "n", "no" }, mode) then
 		return "λ Normal "
 	elseif fn.in_table({ "R", "Rv" }, mode) then
@@ -88,15 +90,9 @@ local function mode_to_readable(mode)
 	end
 end
 
----Component that displays the current vim mode.
----@return string # Filetype icon
-local function statusline_mode()
-	return ("%s"):format(mode_to_readable(vim.fn.mode()))
-end
-
 ---Component that displays if the buffer has been modified.
----@return Component # Modified buffer.
-local function statusline_modified()
+---@return string # Modified buffer.
+function M.modified()
 	if vim.bo.modified then
 		return "●"
 	else
@@ -106,7 +102,7 @@ end
 
 ---Component that displays the progress percentage.
 ---@return string # Progress.
-local function statusline_progressbar()
+function M.progress_bar()
 	local bar = { "▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" }
 	local prop = vim.api.nvim_win_get_cursor(0)[1] / vim.api.nvim_buf_line_count(0)
 	return bar[math.ceil(prop * #bar)]
@@ -114,60 +110,71 @@ end
 
 ---Component that displays a progress bar.
 ---@return string # Progress bar.
-local function statusline_progress()
+function M.progress()
 	local prop = vim.api.nvim_win_get_cursor(0)[1] / vim.api.nvim_buf_line_count(0)
 	return ("%d %%"):format(math.ceil(prop * 100))
 end
 
-_G.statusline_spaces = statusline_spaces
-_G.statusline_mode = statusline_mode
-_G.statusline_branch = statusline_branch
-_G.statusline_filetype = statusline_filetype
-_G.statusline_filename = statusline_filename
-_G.statusline_modified = statusline_modified
-_G.statusline_progressbar = statusline_progressbar
-_G.statusline_progress = statusline_progress
+---Component that aligns items in the statusbar.
+---@return string # Align
+function M.align()
+  return "%="
+end
 
----Setups the statusline
-local function setup_statusline()
-	local group = vim.api.nvim_create_augroup("StatusLine", {})
-	vim.api.nvim_set_hl(0, "StatusLine", { fg = "#BCBCBC", bg = "#585858" })
-	vim.api.nvim_set_hl(0, "StatusLineMode", { fg = "#5FAF5F", bg = "#585858" })
-	vim.api.nvim_set_hl(0, "StatusLineBranch", { fg = "#AF87AF", bg = "#585858" })
-	vim.api.nvim_set_hl(0, "StatusLineModified", { fg = "#AF5F5F", bg = "#585858" })
+---@class Component # Defines a statusline component.
+---@param elements string[] # Elements that represent this component.
+---@param hl string # Highlight to use for this component.
+---@param reset_hl string # Highlight to use for reset.
+
+---@class Highlight # Defines a statusbar highligthing.
+---@param name string # Name of the highlight group.
+---@param fg string # Color to use in the foreground.
+---@param bg string # Color to use in the background.
+---@param bold boolean # Defines if text must be bold.
+
+---@class StatusLineConfig # Configuration for the statusline.
+---@param components Component[] # Components to use.
+---@param highlights Highlight[] # Highlights to use.
+
+---Setup the highlight groups.
+---@param highlights Highlight[] # Highlights to create.
+local function set_highlight_groups(highlights)
+  for _, highlight in pairs(highlights) do
+    vim.api.nvim_set_hl(0, highlight.name, {fg = highlight.fg, bg=highlight.bg, bold=highlight.bold})
+  end
+end
+
+---Setup the statusline.
+---@param components Component[] # Components to use.
+local function set_statusline(components)
+  local statusline = ""
+  for _, component in pairs(components) do
+    statusline = statusline .. "%#" .. component.hl .. "#"
+    for _, element in pairs(component.elements) do
+      if element == "align()" then
+        statusline = statusline .. M.align()
+      else
+        statusline = statusline .. "%{v:lua.require('statusline')." .. element .. "}"
+      end
+    end
+    statusline = statusline .. "%#" .. component.reset_hl .. "#"
+  end
+  local group = vim.api.nvim_create_augroup("StatusLine", {})
 	vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
 		group = group,
 		desc = "Sets the statusline.",
 		callback = function(_)
-			vim.opt_local.statusline = table.concat({
-				"%#StatusLineMode#",
-				"%{v:lua.statusline_spaces(3)}",
-				"%{v:lua.statusline_mode()}",
-				"%{v:lua.statusline_spaces(2)}",
-				"%#StatusLineBranch#",
-				"%{v:lua.statusline_branch()}",
-				"%{v:lua.statusline_spaces(3)}",
-				"%#StatusLine#",
-				"%{v:lua.statusline_filetype()}",
-				"%{v:lua.statusline_spaces(1)}",
-				"%{v:lua.statusline_filename()}",
-				"%{v:lua.statusline_spaces(1)}",
-				"%#StatusLineModified#",
-				"%{v:lua.statusline_modified()}",
-				"%#StatusLine#",
-				"%=",
-				"%{v:lua.statusline_progress()}",
-				"%{v:lua.statusline_spaces(1)}",
-				"%{v:lua.statusline_progressbar()}",
-				"%{v:lua.statusline_spaces(3)}",
-			})
-		end,
+			vim.opt_local.statusline = statusline
+    end,
 	})
 end
 
----Main entrypoint.
-local function main()
-	setup_statusline()
+---Setup for the statusline
+---@param config StatusLineConfig # Configuration for the statusline.
+function M.setup(config)
+  set_highlight_groups(config.highlights)
+  set_statusline(config.components)
 end
 
-main()
+
+return M

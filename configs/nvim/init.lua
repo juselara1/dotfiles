@@ -1,9 +1,8 @@
--- require("statusline")
 -- require("style")
 -- require("format")
 -- require("lint")
 -- require("tmux")
-require("explorer"):setup({})
+
 local options = require("options")
 options.setup({
   options={
@@ -14,13 +13,56 @@ options.setup({
   }
 })
 
-require("lsp_config").setup({servers={"lua_ls", "jedi_language_server"}})
-
 local keybindings = require("keybindings")
 keybindings.setup({
   keybindings={
     keybindings.set_leader, keybindings.set_list, keybindings.set_paste,
     keybindings.set_scroll, keybindings.set_search, keybindings.set_spell,
     keybindings.set_explorer, keybindings.set_indent, keybindings.set_term
+  }
+})
+
+require("explorer"):setup({})
+require("lsp_config").setup({servers={"lua_ls", "jedi_language_server"}})
+require("statusline").setup({
+  highlights = {
+    {name = "StatusLineBase", fg="#BCBCBC", bg="#585858", bold=false},
+    {name = "StatusLineMode", fg="#5FAF5F", bg="#585858", bold=true},
+    {name = "StatusLineBranch", fg="#AF87AF", bg="#585858", bold=false},
+    {name = "StatusLineModified", fg="#AF5F5F", bg="#585858", bold=false},
+  },
+  components = {
+    {
+      elements = {"spaces(3)", "vim_mode()", "spaces(2)"},
+      hl = "StatusLineMode", reset_hl="StatusLineBase"
+    },
+    {
+      elements = {"spaces(1)", "git_branch()", "spaces(1)"},
+      hl = "StatusLineBranch", reset_hl="StatusLineBase"
+    },
+    {
+      elements = {"align()"},
+      hl = "StatusLineBase", reset_hl="StatusLineBase"
+    },
+    {
+      elements = {"filetype()", "spaces(1)", "filename()", "spaces(1)"},
+      hl = "StatusLineBase", reset_hl="StatusLineBase"
+    },
+    {
+      elements = {"modified()"},
+      hl = "StatusLineModified", reset_hl="StatusLineBase"
+    },
+    {
+      elements = {"align()"},
+      hl = "StatusLineBase", reset_hl="StatusLineBase"
+    },
+    {
+      elements = {"spaces(1)", "progress()", "spaces(1)"},
+      hl = "StatusLineBase", reset_hl="StatusLineBase"
+    },
+    {
+      elements = {"spaces(1)", "progress_bar()", "spaces(1)"},
+      hl = "StatusLineBase", reset_hl="StatusLineBase"
+    },
   }
 })

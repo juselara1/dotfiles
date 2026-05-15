@@ -1,5 +1,3 @@
-local explorer = require("explorer")
-
 local M = {}
 
 ---Setups keybindings configs.
@@ -65,7 +63,7 @@ end
 ---Setup netrw shortcuts.
 function M.set_explorer()
 	vim.keymap.set("n", "<leader>e", function()
-		vim.g.netrw_winsize = explorer:get_winsize()
+		vim.g.netrw_winsize = require("explorer"):get_winsize()
 		vim.cmd("Lexplore")
 	end, {
 		silent = false,

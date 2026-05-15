@@ -1,9 +1,11 @@
+local M = {}
+
 ---Validates if value is in table.
 ---@generic T : any # Type of the elements in the iterable.
 ---@param tbl T[] # Input iterable.
 ---@param value T # Value to validate.
 ---@return boolean
-local function in_table(tbl, value)
+function M.in_table(tbl, value)
 	local condition = false
 	for _, elem in ipairs(tbl) do
 		if (value == elem) then
@@ -17,7 +19,7 @@ end
 ---@param a number # First number.
 ---@param b number # Second number.
 ---@return number # Minimum number.
-local function min(a, b)
+function M.min(a, b)
 	if (a <= b) then
 		return a
 	else
@@ -33,7 +35,7 @@ end
 ---@param key1? string # Key for first field.
 ---@param key2? string # Key for second field.
 ---@return table<string, T1 | T2>[]
-local function zip(a, b, key1, key2)
+function M.zip(a, b, key1, key2)
 	local result = {}
 	local len = min(#a, #b)
 	local valid_key1
@@ -60,10 +62,10 @@ end
 ---Maps a function over an array.
 ---@generic T : any # Generic input type.
 ---@generic V : any # Generic output type.
----@param fn fun(T) : V # Mapping function.
+---@param fn fun(elem: T) : V # Mapping function.
 ---@param iterable T[] # Array to map.
 ---@return V[] # Mapped result.
-local function map(fn, iterable)
+function M.map(fn, iterable)
 	local result = {}
 	for _, value in ipairs(iterable) do
 		table.insert(result, fn(value))
@@ -73,10 +75,10 @@ end
 
 ---Filters an array using a function.
 ---@generic T : any # Generic input type.
----@param fn fun(T) : boolean # Filter function.
+---@param fn fun(elem: T) : boolean # Filter function.
 ---@param iterable T[] # Array to filter.
 ---@return T[] # Filtered result.
-local function filter(fn, iterable)
+function M.filter(fn, iterable)
 	local result = {}
 	for _, value in ipairs(iterable) do
 		if fn(value) then
@@ -89,7 +91,7 @@ end
 ---Validates if all values in array are true.
 ---@param iterable boolean[] # Array to validate.
 ---@return boolean # Validation
-local function all(iterable)
+function M.all(iterable)
 	local result = true
 	for _, value in ipairs(iterable) do
 		result = result and value
@@ -100,10 +102,10 @@ end
 ---Maps a function over an index and the value.
 ---@generic T : any # Generic input type.
 ---@generic V : any # Generic output type.
----@param fn fun(int, T):V # Mapping function.
+---@param fn fun(index: int, elem: T):V # Mapping function.
 ---@param iterable T[] # Array to map.
 ---@return V[] # Mapped result.
-local function icollect(fn, iterable)
+function M.icollect(fn, iterable)
 	local result = {}
 	for index, value in ipairs(iterable) do
 		table.insert(result, fn(index, value))
@@ -115,7 +117,7 @@ end
 ---@param strings string[] # Strings to join.
 ---@param sep? string # Separator
 ---@return string # Joined strings
-local function strjoin(strings, sep)
+function M.strjoin(strings, sep)
 	local result = {}
 	local valid_sep
 	local len = #strings
@@ -139,12 +141,4 @@ local function strjoin(strings, sep)
 	return join
 end
 
-return {
-	all = all,
-	icollect = icollect,
-	in_table = in_table,
-	map = map,
-	filter = filter,
-	strjoin = strjoin,
-	zip = zip,
-}
+return M
