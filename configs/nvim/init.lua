@@ -1,7 +1,6 @@
--- require("style")
--- require("format")
--- require("lint")
--- require("tmux")
+require("format")
+require("lint")
+require("tmux")
 
 local options = require("options")
 options.setup({
@@ -24,6 +23,34 @@ keybindings.setup({
 
 require("explorer"):setup({})
 require("lsp_config").setup({servers={"lua_ls", "jedi_language_server"}})
+require("style").setup({
+  lua = { 
+    pattern = { "*.lua" }, 
+    num_spaces = 2, 
+    expandtab = true, 
+    textwidth = 120 
+  },
+  python = { 
+    pattern = { "*.py" }, 
+    num_spaces = 4, 
+    expandtab = true, 
+    textwidth = 88, 
+    colorcolumn = 88 
+  },
+  c = { 
+    pattern = { "*.c", "*.h" }, 
+    num_spaces = 2, 
+    expandtab = true, 
+    textwidth = 80, 
+    colorcolumn = 80 
+  },
+  sh = { 
+    pattern = { "*.sh" }, 
+    num_spaces = 4, 
+    expandtab = true, 
+    textwidth = 80 
+  },
+})
 require("statusline").setup({
   highlights = {
     {name = "StatusLineBase", fg="#BCBCBC", bg="#585858", bold=false},

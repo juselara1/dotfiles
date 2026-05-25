@@ -1,16 +1,34 @@
+local M = {}
+
 ---@class StyleConfig # Style configuration for a programming language.
----@field pattern string # Pattern to detect the filetypes.
+---@field pattern string[] # Pattern to detect the filetypes.
 ---@field num_spaces integer # Number of spaces for indentation.
+---@field expandtab boolean? # Use spaces instead of tabs.
+---@field textwidth integer? # Maximum width of a line.
+---@field colorcolumn integer? # Visual vertical line at specific column.
 
 ---Setups style for a programming language.
 ---@param config StyleConfig # Style configuration.
 local function setup_style(config)
 	vim.o.shiftwidth = config.num_spaces
 	vim.o.tabstop = config.num_spaces
+	vim.o.softtabstop = config.num_spaces
+
+	if config.expandtab ~= nil then
+		vim.o.expandtab = config.expandtab
+	end
+
+	if config.textwidth ~= nil then
+		vim.o.textwidth = config.textwidth
+	end
+
+	if config.colorcolumn ~= nil then
+		vim.o.colorcolumn = tostring(config.colorcolumn)
+	end
 end
 
 ---Setups the autocommand for a given programming language.
----@param style_config StyleConfig # Style configuration.
+---@param config StyleConfig # Style configuration.
 ---@param group any
 local function setup_style_autocmd(config, group)
 	vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
@@ -23,53 +41,13 @@ local function setup_style_autocmd(config, group)
 	})
 end
 
----Setups styling for Lua files.
----@param group any # Neovim augroup.
-local function setup_lua(group)
-	local config = {
-		pattern = { "*.lua" },
-		num_spaces = 2,
-	}
-	setup_style_autocmd(config, group)
-end
-
----Setups styling for Python files.
----@param group any # Neovim augroup.
-local function setup_python(group)
-	local config = {
-		pattern = { "*.python" },
-		num_spaces = 4,
-	}
-	setup_style_autocmd(config, group)
-end
-
----Setups styling for C files.
----@param group any # Neovim augroup.
-local function setup_c(group)
-	local config = {
-		pattern = { "*.c", "*.h" },
-		num_spaces = 2,
-	}
-	setup_style_autocmd(config, group)
-end
-
----Setups styling for Shell files.
----@param group any # Neovim augroup.
-local function setup_sh(group)
-	local config = {
-		pattern = { "*.sh" },
-		num_spaces = 4,
-	}
-	setup_style_autocmd(config, group)
-end
-
----Main entrypoint.
-local function main()
+---Setup function
+---@param configs table<string, StyleConfig> # Map of language names to their style configurations.
+function M.setup(configs)
 	local group = vim.api.nvim_create_augroup("CodeStyle", {})
-	setup_lua(group)
-	setup_python(group)
-	setup_c(group)
-	setup_sh(group)
+	for lang, config in pairs(configs) do
+		setup_style_autocmd(config, group)
+	end
 end
 
-main()
+return M
