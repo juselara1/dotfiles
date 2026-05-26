@@ -1,6 +1,3 @@
-require("lint")
-require("tmux")
-
 local options = require("options")
 options.setup({
 	options = {
@@ -131,6 +128,34 @@ require("format"):setup({
 		},
 	},
 })
+require("lint"):setup({
+	lua = {
+		pattern = { "*.lua" },
+		linters = {
+			{
+				executable = "luacheck",
+				cmd = "luacheck --no-color .",
+				ef = "%f:%l:%c: %m",
+			},
+		},
+	},
+	python = {
+		pattern = { "*.py" },
+		linters = {
+			{
+				executable = "mypy",
+				cmd = "mypy --show-column-numbers .",
+				ef = "%f:%l:%c: %m",
+			},
+			{
+				executable = "ruff",
+				cmd = "ruff check --output-format concise .",
+				ef = "%f:%l:%c: %m",
+			},
+		},
+	},
+}
+)
 require("statusline").setup({
 	highlights = {
 		{ name = "StatusLineBase", fg = "#BCBCBC", bg = "#585858", bold = false },

@@ -1,6 +1,6 @@
 from typing import Set
 from decman import Module
-from decman.plugins import pacman, aur, systemd
+from decman.plugins import aur, systemd
 
 
 class DisplayLinkPackages(Module):

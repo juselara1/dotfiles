@@ -45,7 +45,7 @@ end
 ---@param configs table<string, StyleConfig> # Map of language names to their style configurations.
 function M.setup(configs)
 	local group = vim.api.nvim_create_augroup("CodeStyle", {})
-	for lang, config in pairs(configs) do
+	for _, config in pairs(configs) do
 		setup_style_autocmd(config, group)
 	end
 end

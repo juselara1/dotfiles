@@ -37,7 +37,7 @@ end
 ---@return table<string, T1 | T2>[]
 function M.zip(a, b, key1, key2)
 	local result = {}
-	local len = min(#a, #b)
+	local len = M.min(#a, #b)
 	local valid_key1
 	local valid_key2
 

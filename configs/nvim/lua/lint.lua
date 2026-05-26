@@ -2,108 +2,81 @@ local fn = require("functions")
 
 ---@class Linter # Properties of a linter.
 ---@field executable string # Executable command to validate.
----@field lint_fn function() : nil # Function that executes the linter.
+---@field cmd string # Command to execute.
+---@field ef string # Errorformat for the linter.
 
 ---@class LintConfig # Language specific configuration for linting.
----@field pattern string # Pattern to match a programming language.
+---@field pattern string[] # Pattern to match a programming language.
 ---@field linters Linter[] # Linters for a programming language.
 
----Setups the :Lint command to invoke different linters.
----@param linters Linter[] # List of linters.
-local function setup_lint_command(linters)
-	vim.api.nvim_create_user_command("Lint", function(_)
-		local valid_linters = fn.filter(function(linter)
-			return vim.fn.executable(linter.executable)
-		end, linters)
-		if #valid_linters == 0 then
-			vim.notify("Could not find any valid linter", vim.log.levels.ERROR)
-		elseif #valid_linters == 1 then
-			valid_linters[1].lint_fn()
-		else
-			vim.ui.select(
-				fn.map(function(linter)
-					return linter.executable
-				end, linters),
-				{ prompt = "Select a linter:" },
-				function(executable)
-					local linter = fn.filter(function(linter)
-						return linter.executable == executable
-					end, linters)[1]
-					linter.lint_fn()
-				end
-			)
+local M = {}
+---@type Linter[]
+M.active_linters = {}
+
+---Executes the linting process.
+function M.lint_buffer()
+	local valid_linters = fn.filter(function(linter)
+		return vim.fn.executable(linter.executable) == 1
+	end, M.active_linters)
+
+	if #valid_linters == 0 then
+		return
+	end
+
+	local function run_linter(linter)
+		if linter.ef then
+			vim.o.errorformat = linter.ef
 		end
-	end, {
-		nargs = 0,
-		desc = "Select linter.",
-	})
+		local output = vim.fn.system(linter.cmd)
+		vim.fn.setqflist({}, "r", { title = linter.executable, lines = vim.split(output, "\n") })
+	end
+
+	if #valid_linters == 1 then
+		run_linter(valid_linters[1])
+	else
+		vim.ui.select(
+			fn.map(function(linter)
+				return linter.executable
+			end, valid_linters),
+			{ prompt = "Select a linter:" },
+			function(executable)
+				local linter = fn.filter(function(linter)
+					return linter.executable == executable
+				end, valid_linters)[1]
+				if linter then run_linter(linter) end
+			end
+		)
+	end
 end
 
----Setup lint autocommand.
+---Setup lint autocommands.
 ---@param config LintConfig # Language specific configuration.
 ---@param group any # Neovim augroup.
-local function setup_lint_autocmd(config, group)
-	vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+function M.setup_lint_autocmd(config, group)
+	vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "BufEnter" }, {
 		group = group,
-		desc = "Sets the lint command.",
+		desc = "Sets the current linters.",
 		pattern = config.pattern,
 		callback = function(_)
-			setup_lint_command(config.linters)
+			M.active_linters = config.linters
 		end,
 	})
 end
 
----Setups linters for lua.
----@param group any # Neovim augroup.
-local function setup_lua(group)
-	local config = {
-		pattern = { "*.lua" },
-		linters = {
-			{
-				executable = "luacheck",
-				lint_fn = function()
-					vim.o.errorformat = "%f:%l:%c: %m"
-					local output = vim.fn.system("luacheck --no-color .")
-					vim.fn.setqflist({}, "r", { title = "luacheck", lines = vim.split(output, "\n") })
-				end,
-			},
-		},
-	}
-	setup_lint_autocmd(config, group)
-end
-
----Setups linters for Python
----@param group any # Neovim augroup.
-local function setup_python(group)
-  local config = {
-    pattern = { "*.py" },
-    linters = {
-      {
-        executable = "mypy",
-        lint_fn = function()
-					vim.o.errorformat = "%f:%l:%c: %m"
-					local output = vim.fn.system("mypy --show-column-numbers .")
-					vim.fn.setqflist({}, "r", { title = "mypy", lines = vim.split(output, "\n") })
-        end
-      },
-      {
-        executable = "ruff",
-        lint_fn = function()
-					vim.o.errorformat = "%f:%l:%c: %m"
-					local output = vim.fn.system("ruff check --output-format concise .")
-					vim.fn.setqflist({}, "r", { title = "ruff", lines = vim.split(output, "\n") })
-        end
-      }
-    }
-  }
-	setup_lint_autocmd(config, group)
-end
-
----Main entrypoint.
-local function main()
+---Setup function
+---@param configs table<string, LintConfig> # Map of language names to their lint configurations.
+function M:setup(configs)
 	local group = vim.api.nvim_create_augroup("Lint", {})
-	setup_lua(group)
-  setup_python(group)
+	for _, config in pairs(configs) do
+		self.setup_lint_autocmd(config, group)
+	end
+
+	vim.api.nvim_create_user_command("Lint", function(_)
+		self.lint_buffer()
+	end, {
+		nargs = 0,
+		desc = "Run the current linter.",
+	})
 end
 
-main()
+return M

@@ -13,7 +13,7 @@ M.active_formatters = {}
 ---Setup code formatter autocommands.
 ---@param config FormatConfig # Language specific configuration.
 ---@param group any # Neovim augroup.
-function M:setup_code_format_autocmd(config, group)
+function M.setup_code_format_autocmd(config, group)
 	vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "BufEnter" }, {
 		group = group,
 		desc = "Sets the current code formatter.",
@@ -41,8 +41,8 @@ end
 ---@param configs table<string, FormatConfig> # Map of language names to their format configurations.
 function M:setup(configs)
 	local group = vim.api.nvim_create_augroup("CodeFormat", {})
-	for lang, config in pairs(configs) do
-		self:setup_code_format_autocmd(config, group)
+	for _, config in pairs(configs) do
+		self.setup_code_format_autocmd(config, group)
 	end
 end
 

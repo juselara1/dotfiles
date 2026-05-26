@@ -16,5 +16,7 @@ decman-pacman = { git = "https://github.com/kiviktnm/decman", subdirectory = "pl
 [dependency-groups]
 dev = [
     "jedi-language-server>=0.46.0",
+    "mypy>=2.1.0",
     "ruff>=0.15.12",
+    "ty>=0.0.39",
 ]

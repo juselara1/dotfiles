@@ -9,4 +9,4 @@ class LuaPackages(Module):
 
     @pacman.packages
     def pkgs(self) -> Set[str]:
-        return {"lua-language-server", "stylua"}
+        return {"lua-language-server", "stylua", "luacheck"}

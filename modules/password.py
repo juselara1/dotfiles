@@ -1,4 +1,4 @@
-from typing import Set
+from typing import Set, Dict
 from decman import Module, Directory
 from decman.plugins import pacman
 

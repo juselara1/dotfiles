@@ -1,6 +1,5 @@
-from typing import Set
+from typing import Dict
 from decman import Module, Directory, File
-from decman.plugins import pacman
 
 
 class ShellPackages(Module):
