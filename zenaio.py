@@ -26,33 +26,29 @@ from modules.tmux import TmuxPackages
 USERNAME = "juselara"
 
 decman.modules += [
-        AlacrittyPackages(user=USERNAME),
-        BashPackages(),
-        BrowserPackages(),
-        CommandLinePackages(),
-        DisplayLinkPackages(),
-        DockerPackages(),
-        DriverPackages(),
-        FileFormatsPackages(),
-        FontsPackages(),
-        GitPackages(user=USERNAME),
-        GoosePackages(),
-        LuaPackages(),
-        MultimediaPackages(),
-        NiriPackages(user=USERNAME),
-        NvimPackages(user=USERNAME),
-        PasswordPackages(user=USERNAME),
-        PythonPackages(),
-        ShellPackages(user=USERNAME),
-        SystemPackages(),
-        TerraformGCPPackages(),
-        TmuxPackages(user=USERNAME),
-        ]
+    AlacrittyPackages(user=USERNAME),
+    BashPackages(),
+    BrowserPackages(),
+    CommandLinePackages(),
+    DisplayLinkPackages(),
+    DockerPackages(),
+    DriverPackages(),
+    FileFormatsPackages(),
+    FontsPackages(),
+    GitPackages(user=USERNAME),
+    GoosePackages(),
+    LuaPackages(),
+    MultimediaPackages(),
+    NiriPackages(user=USERNAME),
+    NvimPackages(user=USERNAME),
+    PasswordPackages(user=USERNAME),
+    PythonPackages(),
+    ShellPackages(user=USERNAME),
+    SystemPackages(),
+    TerraformGCPPackages(),
+    TmuxPackages(user=USERNAME),
+]
 
 
 um = UserManager()
-um.add_user(User(
-    username=USERNAME,
-    groups=("docker", "wheel"),
-    shell="/usr/bin/bash"
-    ))
+um.add_user(User(username=USERNAME, groups=("docker", "wheel"), shell="/usr/bin/bash"))

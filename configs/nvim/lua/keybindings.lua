@@ -5,6 +5,14 @@ function M.set_leader()
 	vim.g.mapleader = " "
 end
 
+---Setups formatting keybindings.
+function M.set_format()
+	vim.keymap.set("n", "<leader>cf", function()
+		local format = require("format")
+		format:format_buffer()
+	end, { silent = true, noremap = true, desc = "[C]ode [F]ormat" })
+end
+
 ---Setup search keybindings.
 function M.set_search()
 	vim.keymap.set("n", "<leader>cs", ":noh<CR>", { silent = true, noremap = true, desc = "[C]lear [S]earch" })
@@ -72,7 +80,6 @@ function M.set_explorer()
 	})
 end
 
-
 ---@alias Keybinding fun():nil # Defines the keybindings to setup
 
 ---@class KeybindingConfig
@@ -81,9 +88,9 @@ end
 ---Setup function
 ---@param config KeybindingConfig
 function M.setup(config)
-  for _, keybind in ipairs(config.keybindings) do
-    keybind()
-  end
+	for _, keybind in ipairs(config.keybindings) do
+		keybind()
+	end
 end
 
 return M
