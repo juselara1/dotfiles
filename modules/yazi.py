@@ -3,19 +3,19 @@ from decman import Module, Directory
 from decman.plugins import pacman
 
 
-class GitPackages(Module):
+class YazyPackages(Module):
     def __init__(self, user: str):
-        super().__init__(name="git")
+        super().__init__(name="yazi")
         self.user = user
-
-    @pacman.packages
-    def pkgs(self) -> Set[str]:
-        return {"git", "github-cli", "git-delta"}
 
     def directories(self) -> Dict[str, Directory]:
         return {
-            f"/home/{self.user}/.config/git": Directory(
-                source_directory="./configs/git/",
+            f"/home/{self.user}/.config/yazi": Directory(
+                source_directory="./configs/yazi/",
                 owner=self.user,
             )
         }
+
+    @pacman.packages
+    def pkgs(self) -> Set[str]:
+        return {"yazi"}

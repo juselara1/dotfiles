@@ -10,7 +10,6 @@ from modules.drivers import DriverPackages
 from modules.file_formats import FileFormatsPackages
 from modules.fonts import FontsPackages
 from modules.git import GitPackages
-from modules.goose import GoosePackages
 from modules.lua import LuaPackages
 from modules.multimedia import MultimediaPackages
 from modules.niri import NiriPackages
@@ -21,6 +20,7 @@ from modules.shell import ShellPackages
 from modules.system import SystemPackages
 from modules.terraform_gcp import TerraformGCPPackages
 from modules.tmux import TmuxPackages
+from modules.yazi import YazyPackages
 
 
 USERNAME = "juselara"
@@ -36,7 +36,6 @@ decman.modules += [
     FileFormatsPackages(),
     FontsPackages(),
     GitPackages(user=USERNAME),
-    GoosePackages(),
     LuaPackages(),
     MultimediaPackages(),
     NiriPackages(user=USERNAME),
@@ -47,6 +46,7 @@ decman.modules += [
     SystemPackages(),
     TerraformGCPPackages(),
     TmuxPackages(user=USERNAME),
+    YazyPackages(user=USERNAME),
 ]
 
 

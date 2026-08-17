@@ -37,7 +37,7 @@ keybindings.setup({
 })
 
 require("explorer"):setup({})
-require("lsp_config").setup({ servers = { "lua_ls", "jedi_language_server" } })
+require("lsp_config").setup({ servers = { "lua_ls", "zubanls", "jedi_language_server" } })
 require("style").setup({
 	lua = {
 		pattern = { "*.lua" },
@@ -152,10 +152,14 @@ require("lint"):setup({
 				cmd = "ruff check --output-format concise .",
 				ef = "%f:%l:%c: %m",
 			},
+			{
+				executable = "ty",
+				cmd = "ty check --output-format concise .",
+				ef = "%f:%l:%c: %m",
+			},
 		},
 	},
-}
-)
+})
 require("statusline").setup({
 	highlights = {
 		{ name = "StatusLineBase", fg = "#BCBCBC", bg = "#585858", bold = false },
